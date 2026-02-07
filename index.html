@@ -1,98 +1,245 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Generate videos with Veo</title>
+    <title>Revuzagram • Share moments</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono&family=Permanent+Marker&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="index.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.sh/@google/genai@^1.4.0"
-        }
-      }
-    </script>
   </head>
-  <body class="bg-[#1E1F20] font-['Inter'] text-gray-300 antialiased">
-    <div
-      class="min-h-screen flex items-center justify-center p-4"
-      role="main"
-    >
-      <div
-        class="bg-[#2a2b2e] px-8 pt-8 pb-6 rounded-2xl shadow-2xl w-full max-w-2xl space-y-6"
-      >
-        <div class="text-center">
-          <h1 class="text-3xl font-bold text-white tracking-tight">
-            Generate videos with Veo
-          </h1>
-          <p class="text-gray-400 mt-2 text-sm">
-            Enter a prompt and optional image to generate a video with Veo.<br />
-            See the "Code" tab for an example implementation.
-          </p>
-        </div>
-
-        <div class="space-y-4">
-          <textarea
-            id="prompt-input"
-            rows="4"
-            class="w-full bg-[#353739] border border-gray-600 rounded-lg p-4 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 resize-none"
-            placeholder="Enter a prompt, e.g., 'A cinematic shot of a futuristic city at night'"
-            aria-label="Video generation prompt"
-          ></textarea>
-
-          <div>
-            <p class="text-sm text-gray-400 mb-2">
-              Conditioning Image (Optional)
-            </p>
-            <div class="flex items-center space-x-4">
-              <label
-                for="file-input"
-                class="cursor-pointer bg-[#353739] hover:bg-[#4a4c50] text-white font-semibold py-2 px-4 rounded-lg border border-gray-600 transition-colors duration-200"
-              >
-                Choose File
-              </label>
-              <input
-                id="file-input"
-                type="file"
-                accept="image/*"
-                class="hidden"
-              />
-              <span id="file-name" class="text-gray-400 text-sm"
-                >No file chosen</span
-              >
+  <body class="bg-[#0b0d12] font-['Inter'] text-slate-100 antialiased">
+    <div class="min-h-screen">
+      <header class="sticky top-0 z-20 border-b border-white/5 bg-[#0b0d12]/80 backdrop-blur">
+        <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-pink-500 via-orange-400 to-purple-500"></div>
+            <div>
+              <p class="text-lg font-semibold">Revuzagram</p>
+              <p class="text-xs text-slate-400">Share your cinematic moments</p>
             </div>
-            <img
-              alt="Conditioning image preview"
-              id="img-preview"
-              class="hidden rounded-lg max-h-48 mt-4"
-            />
+          </div>
+          <div class="hidden items-center gap-3 md:flex">
+            <div class="relative">
+              <input
+                type="search"
+                placeholder="Search"
+                class="w-64 rounded-full border border-white/10 bg-[#161a24] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:border-pink-400 focus:outline-none"
+              />
+              <span class="absolute right-3 top-2 text-xs text-slate-500">⌘K</span>
+            </div>
+            <button class="rounded-full bg-white/10 px-4 py-2 text-sm font-medium hover:bg-white/20">
+              Create
+            </button>
+            <div class="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1">
+              <img
+                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&h=64&fit=crop"
+                alt="Profile"
+                class="h-8 w-8 rounded-full object-cover"
+              />
+              <span class="text-sm">You</span>
+            </div>
           </div>
         </div>
+      </header>
 
-        <button
-          id="generate-button"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-        >
-          Generate
-        </button>
+      <main class="mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-[220px_1fr_320px]">
+        <aside class="hidden flex-col gap-4 lg:flex">
+          <nav class="glass-panel rounded-2xl p-4 space-y-4">
+            <div class="text-xs uppercase tracking-[0.2em] text-slate-500">Navigation</div>
+            <div class="space-y-3 text-sm">
+              <button class="flex w-full items-center justify-between rounded-xl bg-white/5 px-3 py-2 font-medium">Home <span>🏠</span></button>
+              <button class="flex w-full items-center justify-between rounded-xl px-3 py-2 text-slate-300 hover:bg-white/5">Explore <span>🧭</span></button>
+              <button class="flex w-full items-center justify-between rounded-xl px-3 py-2 text-slate-300 hover:bg-white/5">Reels <span>🎬</span></button>
+              <button class="flex w-full items-center justify-between rounded-xl px-3 py-2 text-slate-300 hover:bg-white/5">Messages <span>💬</span></button>
+            </div>
+          </nav>
+          <div class="glass-panel rounded-2xl p-4">
+            <p class="text-sm font-medium">Upgrade to Revuzagram+</p>
+            <p class="mt-2 text-xs text-slate-400">AI story tools, analytics, and pro filters.</p>
+            <button class="mt-4 w-full rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-2 text-sm font-semibold">Try 7 days free</button>
+          </div>
+        </aside>
 
-        <div class="w-full">
-          <video
-            id="video"
-            class="w-full rounded-lg hidden"
-            autoplay
-            loop
-            controls
-          ></video>
-        </div>
+        <section class="space-y-6" role="main">
+          <div class="glass-panel rounded-2xl p-4">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold">Stories</p>
+              <button class="text-xs text-pink-400">View all</button>
+            </div>
+            <div class="mt-4 flex gap-4 overflow-x-auto pb-2">
+              <div class="flex flex-col items-center gap-2 text-xs">
+                <div class="story-ring">
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop" alt="Story" class="h-14 w-14 object-cover" />
+                </div>
+                <span>Mark</span>
+              </div>
+              <div class="flex flex-col items-center gap-2 text-xs">
+                <div class="story-ring">
+                  <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&h=64&fit=crop" alt="Story" class="h-14 w-14 object-cover" />
+                </div>
+                <span>Alina</span>
+              </div>
+              <div class="flex flex-col items-center gap-2 text-xs">
+                <div class="story-ring">
+                  <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=64&h=64&fit=crop" alt="Story" class="h-14 w-14 object-cover" />
+                </div>
+                <span>Jiro</span>
+              </div>
+              <div class="flex flex-col items-center gap-2 text-xs">
+                <div class="story-ring">
+                  <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=64&h=64&fit=crop" alt="Story" class="h-14 w-14 object-cover" />
+                </div>
+                <span>Sasha</span>
+              </div>
+              <div class="flex flex-col items-center gap-2 text-xs">
+                <div class="story-ring">
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop" alt="Story" class="h-14 w-14 object-cover" />
+                </div>
+                <span>Nova</span>
+              </div>
+            </div>
+          </div>
 
-        <p id="status" class="text-center text-gray-400 min-h-[24px]"></p>
-      </div>
+          <article class="feed-card rounded-3xl p-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&h=64&fit=crop" alt="Profile" class="h-10 w-10 rounded-full object-cover" />
+                <div>
+                  <p class="text-sm font-semibold">alina.vision</p>
+                  <p class="text-xs text-slate-400">Downtown LA • 2h</p>
+                </div>
+              </div>
+              <button class="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-200 hover:bg-white/10">Follow</button>
+            </div>
+            <div class="mt-4 overflow-hidden rounded-2xl">
+              <img
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&auto=format&fit=crop"
+                alt="Feed"
+                class="h-80 w-full object-cover"
+              />
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="flex items-center gap-4 text-lg">
+                <button data-like-button class="like-button">♡</button>
+                <button class="text-base">💬</button>
+                <button class="text-base">✈️</button>
+              </div>
+              <button data-save-button class="save-button text-base">🔖</button>
+            </div>
+            <div class="mt-3 text-sm">
+              <p><span class="font-semibold">21,493 likes</span></p>
+              <p class="mt-2 text-slate-300">
+                <span class="font-semibold text-white">alina.vision</span>
+                Neon rain, 35mm, and the city humming.
+              </p>
+              <button class="mt-2 text-xs text-slate-400">View all 312 comments</button>
+            </div>
+          </article>
+
+          <article class="feed-card rounded-3xl p-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&h=64&fit=crop" alt="Profile" class="h-10 w-10 rounded-full object-cover" />
+                <div>
+                  <p class="text-sm font-semibold">mark.studio</p>
+                  <p class="text-xs text-slate-400">Reel preview • 5h</p>
+                </div>
+              </div>
+              <button class="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-200 hover:bg-white/10">Follow</button>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <img
+                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&auto=format&fit=crop"
+                alt="Feed"
+                class="h-48 w-full rounded-2xl object-cover"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&auto=format&fit=crop"
+                alt="Feed"
+                class="h-48 w-full rounded-2xl object-cover"
+              />
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <div class="flex items-center gap-4 text-lg">
+                <button data-like-button class="like-button">♡</button>
+                <button class="text-base">💬</button>
+                <button class="text-base">✈️</button>
+              </div>
+              <button data-save-button class="save-button text-base">🔖</button>
+            </div>
+            <p class="mt-3 text-sm text-slate-300">
+              <span class="font-semibold text-white">mark.studio</span>
+              Behind the scenes from the creator house.
+            </p>
+          </article>
+        </section>
+
+        <aside class="space-y-6">
+          <div class="glass-panel rounded-2xl p-4">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold">Suggested for you</p>
+              <button class="text-xs text-pink-400">Refresh</button>
+            </div>
+            <div class="mt-4 space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=64&h=64&fit=crop" alt="Profile" class="h-10 w-10 rounded-full object-cover" />
+                  <div>
+                    <p class="text-sm font-medium">jiro.daily</p>
+                    <p class="text-xs text-slate-400">Creative director</p>
+                  </div>
+                </div>
+                <button class="follow-toggle text-xs text-pink-400" data-follow>Follow</button>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=64&h=64&fit=crop" alt="Profile" class="h-10 w-10 rounded-full object-cover" />
+                  <div>
+                    <p class="text-sm font-medium">sasha.co</p>
+                    <p class="text-xs text-slate-400">Fashion designer</p>
+                  </div>
+                </div>
+                <button class="follow-toggle text-xs text-pink-400" data-follow>Follow</button>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&h=64&fit=crop" alt="Profile" class="h-10 w-10 rounded-full object-cover" />
+                  <div>
+                    <p class="text-sm font-medium">alina.vision</p>
+                    <p class="text-xs text-slate-400">Visual storyteller</p>
+                  </div>
+                </div>
+                <button class="follow-toggle text-xs text-pink-400" data-follow>Follow</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-2xl p-4">
+            <p class="text-sm font-semibold">Creator analytics</p>
+            <div class="mt-4 space-y-3 text-xs text-slate-400">
+              <div class="flex items-center justify-between">
+                <span>New followers</span>
+                <span class="text-slate-200">+1,204</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Weekly reach</span>
+                <span class="text-slate-200">2.4M</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Reel saves</span>
+                <span class="text-slate-200">18.9k</span>
+              </div>
+              <div class="mt-4 rounded-xl bg-white/5 p-3 text-[11px] text-slate-300">
+                Tip: Post your next reel between 7-9 PM for max engagement.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
     </div>
     <script type="module" src="index.tsx"></script>
   </body>

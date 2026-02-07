@@ -1,0 +1,30 @@
+:root {
+  color-scheme: dark;
+}
+
+.story-ring {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #f9ce34,
+    #ee2a7b,
+    #6228d7,
+    #f9ce34
+  );
+  padding: 2px;
+  border-radius: 9999px;
+}
+
+.story-ring img {
+  border-radius: 9999px;
+  border: 2px solid #0f1115;
+}
+
+.feed-card {
+  background: #151821;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-panel {
+  background: linear-gradient(140deg, rgba(32, 36, 48, 0.9), rgba(16, 19, 27, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
